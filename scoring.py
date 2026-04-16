@@ -1,4 +1,3 @@
-# Scoring Engine and Simulation
 from sorting import get_pattern_string
 
 
@@ -7,7 +6,7 @@ def partition_by_pattern(guess, word_list):
     groups = {}
     for secret in word_list:
         if len(secret) != len(guess):
-            continue                     # skip mismatched lengths (safety)
+            continue
         pattern = get_pattern_string(secret, guess)
         groups.setdefault(pattern, []).append(secret)
     return groups
@@ -74,31 +73,3 @@ def print_summary(results):
     for n in range(1, 8):
         cnt = sum(1 for c in counts if c == n)
         print(f"  {n}: {cnt} games  {'#' * cnt}")
-
-
-if __name__ == "__main__":
-    # Load words – handle multiple words per line
-    words = []
-    with open("wordle_dictionary_balanced.txt") as f:
-        for line in f:
-            for word in line.split():
-                if len(word) == 5:
-                    words.append(word.upper())
-
-    print(f"Loaded {len(words)} five-letter words.\n")
-
-    print("Ranking all opening guesses...")
-    ranked = rank_all_guesses(words, method="expected")
-
-    print("Top 10 opening words:")
-    for w, s in ranked[:10]:
-        print(f"  {w}  ->  {s:.2f}")
-
-    print("\nWorst 10 opening words:")
-    for w, s in ranked[-10:]:
-        print(f"  {w}  ->  {s:.2f}")
-
-    print("\nRunning full simulation...")
-    results = simulate_all_games(words, method="expected")
-    print()
-    print_summary(results)

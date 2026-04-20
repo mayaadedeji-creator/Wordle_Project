@@ -42,6 +42,8 @@ def display_feedback(pattern):
 
 
 def main():
+    import os
+    print(f"Current Directory: {os.getcwd()}")
     print("Welcome to a Smarter Wordle!")
     time.sleep(1)
     username = input("What is your name? ").strip()
@@ -75,8 +77,9 @@ def main():
         while attempts < max_attempts and not guessed:
             # Show hint if there are multiple possibilities
             if len(possible) > 1:
-                best_guess = pick_best_guess(possible, method="expected")
-                print(f"Hint: The best next guess is '{best_guess}'")
+                if attempts > 0:
+                    best_guess = pick_best_guess(possible, method="expected")
+                    print(f"Hint: The best next guess is '{best_guess}'")
             elif len(possible) == 1:
                 print(f"Hint: Only one word remains: '{possible[0]}'")
 
